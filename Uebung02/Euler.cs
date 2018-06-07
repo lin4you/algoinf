@@ -16,14 +16,22 @@ namespace Euler
 //			{{0,1},{0,2},{0,3},{0,4},{1,2},{1,5},{1,6},{3,4},{3,6},
 //				{3,7},{5,6},{6,8},{7,8},{7,9},{7,10},{8,9},{8,10}};
 			
-			String pairPath = "./blatt2_aufgabe1_a_graph.txt";
+			String pairPath = "./blatt2_aufgabe1_b_graph.txt";
 
 			Console.WriteLine("processing " + pairPath);
 			List<int[]> edges = TupleReader.ReadPairs(pairPath);
+		
 			
 			Graph graph = new Graph(edges);
 			
 			Console.WriteLine($"Size: {graph.Size()}");
+
+			foreach (var component in graph.Components())
+			{
+				var size = graph.DFS_Stack(component).Count;
+				
+				Console.WriteLine(size);
+			}
 			
 			// Display the graph
 			graph.Display();
@@ -74,7 +82,7 @@ namespace Euler
 				}
 			}
 
-			if (oddCount == 0)
+			if (oddCount == 1)
 			{
 				return null;
 			}
