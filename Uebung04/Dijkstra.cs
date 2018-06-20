@@ -8,9 +8,9 @@ namespace Dijkstra
 	public class Dijkstra
 	{
 
-		public static void Maina()
+		public static void Main()
 		{
-			String pairPath = "./blatt04_aufg1_b.txt";
+			String pairPath = "./blatt04_aufg1_a.txt";
 
 			Console.WriteLine("processing " + pairPath);
 			List<int[]> edges = TupleReader.ReadTriples(pairPath);
@@ -34,10 +34,10 @@ namespace Dijkstra
 			int[] pred2;		//predeceesor nodes for these paths
 
 //			// Check Again with Array implementation
-			ShortestPathsArray(graph, vStart, out pi2, out pred2);
+			//ShortestPathsArray(graph, vStart, out pi2, out pred2);
 
 //			// Output shortest paths
-			DisplayShortestPaths(vStart, pi2, pred2);
+			//DisplayShortestPaths(vStart, pi2, pred2);
 		}
 
 

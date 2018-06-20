@@ -7,7 +7,7 @@ namespace BellmanFord
 	public class BellmanFord
 	{
 
-		public static void Main()
+		public static void Maina()
 		{
 			String pairPath = "./blatt04_aufg1_b.txt";
 

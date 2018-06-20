@@ -1,0 +1,10 @@
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/bin/Debug/netcoreapp2.0/Uebung06.deps.json
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/bin/Debug/netcoreapp2.0/Uebung06.runtimeconfig.json
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/bin/Debug/netcoreapp2.0/Uebung06.runtimeconfig.dev.json
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/bin/Debug/netcoreapp2.0/Uebung06.dll
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/bin/Debug/netcoreapp2.0/Uebung06.pdb
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/obj/Debug/netcoreapp2.0/Uebung06.csproj.CoreCompileInputs.cache
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/obj/Debug/netcoreapp2.0/Uebung06.AssemblyInfoInputs.cache
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/obj/Debug/netcoreapp2.0/Uebung06.AssemblyInfo.cs
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/obj/Debug/netcoreapp2.0/Uebung06.dll
+/Users/friedrich/code/csharp/AlgorithmenDerInformatik/Uebung06/obj/Debug/netcoreapp2.0/Uebung06.pdb
