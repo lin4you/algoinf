@@ -122,30 +122,17 @@ namespace EuclidTSP
 			// erzeuge Tour
 			List<int> tour = new List<int>(V + 1);
 			
-			
-			/*var graph = new Graph(V);
-
-			for (int i = 0; i < V; i++)
-			{
-				for (int j = 0; j < V; j++)
-				{
-					if (i != j)
-					{
-						graph.AddEdge(i, j, D[i,j]);
-					}
-				}
-			}*/
-			
 			//start
 			tour.Add(v_0);
 
+			var heap = new PriorityHeap(V);
 			for (int i = 0; i < V-1; i++)
 			{
 				int shortestNode = -1;
 				double shortestDistance = Double.PositiveInfinity;
 				for (int j = 0; j < V; j++)
 				{
-					if (i == j || tour.Contains(j))
+					if (i == j || heap.Contains(j))
 					{
 						continue;
 					}
@@ -157,6 +144,7 @@ namespace EuclidTSP
 					}
 				}
 				
+				heap.Insert(shortestNode, shortestDistance);
 				tour.Add(shortestNode);
 			}
 			
