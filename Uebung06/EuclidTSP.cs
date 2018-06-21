@@ -103,8 +103,6 @@ namespace EuclidTSP
 			// erzeuge Tour
 			List<int> tour = new List<int>(V + 1);
 
-			//TODO: Implement
-
 			foreach (var edge in mst)
 			{
 				tour.Add(edge.Some());
@@ -122,10 +120,14 @@ namespace EuclidTSP
 			// erzeuge Tour
 			List<int> tour = new List<int>(V + 1);
 			
+			var heap = new PriorityHeap(V);
+			heap.Insert(v_0, 0);
+			
 			//start
 			tour.Add(v_0);
 
-			var heap = new PriorityHeap(V);
+			var lastNode = v_0;
+
 			for (int i = 0; i < V-1; i++)
 			{
 				int shortestNode = -1;
@@ -137,13 +139,14 @@ namespace EuclidTSP
 						continue;
 					}
 					
-					if (shortestDistance > D[i, j])
+					if (shortestDistance > D[lastNode, j])
 					{
 						shortestNode = j;
-						shortestDistance = D[i, j];
+						shortestDistance = D[lastNode, j];
 					}
 				}
-				
+
+				lastNode = shortestNode;
 				heap.Insert(shortestNode, shortestDistance);
 				tour.Add(shortestNode);
 			}
