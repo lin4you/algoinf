@@ -10,7 +10,7 @@ namespace BipartiteMatching
 	public class BipartiteMatching
 	{
 
-		public static void Maina(string[] args)
+		public static void Main(string[] args)
 		{
 			string path = (args.Length > 0) ? args [0] : "blatt8_aufg2.txt";
 
@@ -60,8 +60,56 @@ namespace BipartiteMatching
 		// If the graph is not bipartite, this method return null.
 		public static bool[] Bipartition(UndirectedGraph.Graph graph) {
 			bool[] partition = new bool[graph.Nodes()];
-			//TODO: implement
-			return partition;
+			
+			// stores vertex is discovered or not
+			bool[] discovered = new bool[graph.Nodes()];
+
+			// stores color 0 or 1 of each vertex in BFS
+			//bool[] color = new bool[N];
+
+			// mark source vertex as discovered and
+			// set its color to 0
+			discovered[0] = true;
+			partition[0] = false;
+
+			//List<int> nodes = graph.DFS_recursive();
+			// start DFS traversal from any node as graph
+			// is connected and undirected
+			if (DFS(graph, 1, discovered, partition))
+			{
+				return partition;
+			}
+
+			return null;
+		}
+		
+		static bool DFS(UndirectedGraph.Graph graph, int v, bool[] discovered, bool[] color)
+		{
+			// do for every edge (v -> u)
+			foreach (int u in graph.AllNodes(v))
+			{
+				// if vertex u is explored for first time
+				if (discovered[u] == false)
+				{
+					// mark current node as discovered
+					discovered[u] = true;
+					// set color as opposite color of parent node
+					color[u] = !color[v];
+
+					// if DFS on any subtree rooted at v
+					// we return false
+					if (DFS(graph, u, discovered, color) == false)
+						return false;
+				}
+				// if the vertex is already been discovered and
+				// color of vertex u and v are same, then the
+				// graph is not Bipartite
+				else if (color[v] == color[u]) {
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		public static void DisplayMatching(List<Edge> edges) {
