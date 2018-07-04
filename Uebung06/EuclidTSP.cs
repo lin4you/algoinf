@@ -134,7 +134,7 @@ namespace EuclidTSP
 				double shortestDistance = Double.PositiveInfinity;
 				for (int j = 0; j < V; j++)
 				{
-					if (i == j || heap.Contains(j))
+					if (lastNode == j || heap.Contains(j))
 					{
 						continue;
 					}
