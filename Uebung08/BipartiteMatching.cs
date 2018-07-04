@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UndirectedGraph;
 using DirectedWeightedGraph;
 using Flow;
 using EdmondsKarp;
@@ -125,6 +124,50 @@ namespace BipartiteMatching
 		public static List<Edge> Matching(UndirectedGraph.Graph graph, bool[] partition) {
 			List<Edge> matching = new List<Edge>();
 			//TODO: Implement
+
+			DirectedWeightedGraph.Graph g = new DirectedWeightedGraph.Graph(graph.Nodes()+2);
+
+			int s = g.Nodes() - 2;
+			int t = g.Nodes() - 1;
+			
+			for (int i = 0; i < graph.Nodes(); i++)
+			{
+				List<int> nodes = graph.AllNodes(i);
+				for (int j = 0; j < nodes.Count; j++)
+				{
+					g.AddEdge(i, nodes[j], 1);
+					
+					if (partition[i])
+					{
+						g.AddEdge(i, t, 1);
+					}
+					else
+					{
+						g.AddEdge(s, i, 1);
+					}
+				}
+			}
+			
+			
+			FlowGraph network = new FlowGraph(g, s, t);
+			FlowOptimizer optimizer = new EdmondsKarp.EdmondsKarp();
+			optimizer.InteractiveOptimumFlow(network);
+
+			var path = optimizer.ComputeResidualPath(network);
+
+			if (path == null)
+			{
+				return null;
+			}
+			
+			for (int i = 1; i < path.Count; i++)
+			{
+				matching.Add(new Edge(path[i-1], path[i], 1));
+			}
+
+			// Display the optimum flow
+			//System.Console.WriteLine("Flow is " + network.ComputeFlow());
+			
 			return matching;
 		}
 	}

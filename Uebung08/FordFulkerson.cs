@@ -11,7 +11,7 @@ namespace FordFulkerson
 
 		public static void Maina(string[] args)
 		{
-			string path = (args.Length > 0) ? args [0] : "blatt8_aufg1.txt";
+			string path = (args.Length > 0) ? args [0] : "blatt8_aufg2.txt";
 
 			// Construct the Capacity Graph
 			List<int[]> edges = TupleReader.ReadTriples(path);
