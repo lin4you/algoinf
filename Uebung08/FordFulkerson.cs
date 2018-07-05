@@ -9,7 +9,7 @@ namespace FordFulkerson
 	public class FordFulkerson : FlowOptimizer
 	{
 
-		public static void Maina(string[] args)
+		public static void Main(string[] args)
 		{
 			string path = (args.Length > 0) ? args [0] : "blatt8_aufg2.txt";
 
@@ -44,121 +44,55 @@ namespace FordFulkerson
 				System.Console.WriteLine("Flow is " + network.ComputeFlow());
 			}
 		}
-		
-		List<int> DFS_Stack(int root, int target, FlowGraph network)
-		{
-			bool[] visited = new bool[network.Nodes()];
-			List<int> visitedNodes = new List<int>();
-			Stack<int> nextNodes = new Stack<int>();
-			nextNodes.Push(root);
-			while(nextNodes.Count > 0)
-			{
-				int v = nextNodes.Pop();
-				if(!visited[v])
-				{
-					visited[v] = true;
-					visitedNodes.Add(v);
-
-					if (v == target)
-					{
-						return visitedNodes;
-					}
-					
-					List<Edge> neighbors = network.Edges(v);
-					foreach (Edge e in neighbors)
-					{
-						if (e.From() == v)
-						{
-							nextNodes.Push(e.To());
-						}
-					}
-				}
-			}
-			
-			return null;
-		}
 
 		// compute residual path from source to sink using depth first search
 		public override List<int> ComputeResidualPath(FlowGraph network)
 		{
-			double flow = 0;
- 
-			List<int> path = DFS_Stack(network.Source, network.Target, network);
- 
-			while (path != null && path.Count > 0)
-			{
-				double minCapacity = double.MaxValue;
-
-				for (int i = 1; i < path.Count; i++)
-				{
-					double capacity = network.Weight(path[i - 1], path[i]);
-					if (capacity < minCapacity)
-					{
-						minCapacity = capacity; 
-					}
-				}
-
-				network.Augment(path); //AugmentPath(path, minCapacity);
-				flow += minCapacity;
- 
-				path = DFS_Stack(network.Source, network.Target, network);
-			}
-
-
-			return path;
-			//FindMinCut(nodeSource);
-			
-			return null;
-			
-			
-			/*bool[] visited = new bool[network.Nodes()];
-			List<int> visitedNodes = new List<int>();
+			int V = network.Nodes();
+			bool[] visited = new bool[V];	// marks already visited nodes.
+			int[] pred = new int[V];		// marks the predecessor of the
+			// current node for the output path
+			// initialize
+			for (int v = 0; v < V; v++) visited[v] = false;
+			for (int v = 0; v < V; v++) pred[v] = -1;
+			visited[network.Source] = true;
 			Stack<int> nextNodes = new Stack<int>();
 			nextNodes.Push(network.Source);
-			while(nextNodes.Count > 0)
+			while (nextNodes.Count > 0)
 			{
-				network.Augment();
 				int v = nextNodes.Pop();
-				if(!visited[v])
+				foreach (Edge edge in network.Edges(v))
 				{
-					visited[v] = true;
-					visitedNodes.Add(v);
-					List<Edge> neighbors = network.Edges(v);
-					foreach (Edge w in neighbors)
+					// we are only interested in paths with nonzero weights.
+					if ((edge.Weight() > 0) && !visited[edge.To()])
 					{
-						nextNodes.Push(w.To());
+						if (edge.To() != network.Target)
+						{
+							// If we have not yet reached the target, continue the
+							// search.
+							visited[edge.To()] = true;
+							pred[edge.To()] = v;
+							nextNodes.Push(edge.To());
+						}
+						else
+						{
+							// If we have reached the target, we extract the path.
+							List<int> path = new List<int>();
+							path.Add(network.Target);
+							while (v != network.Source)
+							{
+								path.Add(v);
+								v = pred[v];
+							}
+							path.Add(network.Source);
+							// ... and return it
+							path.Reverse();
+							return(path);
+						}
 					}
 				}
 			}
-
-			if (visitedNodes.Count == 0)
-			{
-				return null;
-			}
-			
-			return visitedNodes;
-			
-			foreach (var edge in network.AllEdges())
-			{
-				
-			}*/
-			/*
-			 *  setze Fluss f(u,v) = 0
-				berechne das residuale Netz Gf
-				while es gibt augmentierenden Pfad p in Gf do
-					cf(p) := min{cf(u,v)|(u,v) in p} 
-					for all Kanten (u,v) in p do
-						if (u,v) ∈ E then
-							f (u, v ) := f (u, v ) + cf (p)
-						else if (v,u) ∈ E then
-							f (v , u) := f (v , u) − cf (p)
-						end if 
-					end for
-					berechne Gf 
-				end while
-			 */
-			//TODO: implement this method
-			// if no path is found, return null
+			// no path found, return null
 			return null;
 		}
 

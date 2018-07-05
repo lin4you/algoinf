@@ -9,7 +9,7 @@ namespace BipartiteMatching
 	public class BipartiteMatching
 	{
 
-		public static void Main(string[] args)
+		public static void Maina(string[] args)
 		{
 			string path = (args.Length > 0) ? args [0] : "blatt8_aufg2.txt";
 
