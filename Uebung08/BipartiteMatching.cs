@@ -9,7 +9,7 @@ namespace BipartiteMatching
 	public class BipartiteMatching
 	{
 
-		public static void Maina(string[] args)
+		public static void Main(string[] args)
 		{
 			string path = (args.Length > 0) ? args [0] : "blatt8_aufg2.txt";
 
@@ -127,7 +127,7 @@ namespace BipartiteMatching
 
 			DirectedWeightedGraph.Graph g = new DirectedWeightedGraph.Graph(graph.Nodes()+2);
 
-			int s = g.Nodes() - 2;
+			int s = 0;
 			int t = g.Nodes() - 1;
 			
 			for (int i = 0; i < graph.Nodes(); i++)
@@ -135,15 +135,15 @@ namespace BipartiteMatching
 				List<int> nodes = graph.AllNodes(i);
 				for (int j = 0; j < nodes.Count; j++)
 				{
-					g.AddEdge(i, nodes[j], 1);
+					g.AddEdge(i+1, nodes[j], 1);
 					
 					if (partition[i])
 					{
-						g.AddEdge(i, t, 1);
+						g.AddEdge(i+1, t, 1);
 					}
 					else
 					{
-						g.AddEdge(s, i, 1);
+						g.AddEdge(s, i+1, 1);
 					}
 				}
 			}
@@ -151,18 +151,21 @@ namespace BipartiteMatching
 			
 			FlowGraph network = new FlowGraph(g, s, t);
 			FlowOptimizer optimizer = new EdmondsKarp.EdmondsKarp();
-			optimizer.InteractiveOptimumFlow(network);
+			//optimizer.InteractiveOptimumFlow(network);
 
-			var path = optimizer.ComputeResidualPath(network);
-
-			if (path == null)
-			{
-				return null;
-			}
+			optimizer.OptimumFlow(network);
+			network.ComputeFlow();
 			
-			for (int i = 1; i < path.Count; i++)
+			for (int v = 1; v < network.Nodes()-1; v++)
 			{
-				matching.Add(new Edge(path[i-1], path[i], 1));
+				foreach (Edge edge in network.Edges(v))
+				{
+					if (edge.To() != s && edge.From() != t && edge.Weight() > 0)
+					{
+						matching.Add(edge);
+						break;
+					}
+				}
 			}
 
 			// Display the optimum flow
